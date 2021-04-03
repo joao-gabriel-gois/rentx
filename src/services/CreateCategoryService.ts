@@ -1,6 +1,5 @@
 import AppError from "../error/AppError";
-import CategoriesRepository from "../repositories/CategoriesRepository";
-
+import ICategoriesRepository from "../repositories/ICategoriesRepository";
 
 interface IRequest {
   name: string;
@@ -10,7 +9,7 @@ interface IRequest {
 export default class CreateCategoryService {
   private categoriesRepository;
 
-  constructor(categoriesRepository: CategoriesRepository) {
+  constructor(categoriesRepository: ICategoriesRepository) {
     this.categoriesRepository = categoriesRepository;
   }
 

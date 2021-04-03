@@ -1,10 +1,10 @@
 import Category from "../models/Category";
-import CategoriesRepository from "../repositories/CategoriesRepository";
+import ICategoriesRepository from "../repositories/ICategoriesRepository";
 
 export default class ListCategoriesService {
   private categoriesRepository;
 
-  constructor(categoriesRepository: CategoriesRepository) {
+  constructor(categoriesRepository: ICategoriesRepository) {
     this.categoriesRepository = categoriesRepository;
   }
 
