@@ -1,20 +1,8 @@
-import express, { Request, response, Response } from 'express';
-import CreateCourseService from './CreateCourseService';
+import { Router } from 'express';
+import { categoriesRoutes } from './categoriesRoutes';
 
-const routes = express.Router();
+const routes = Router();
 
-function createCourse() {
-  CreateCourseService.execute({
-    name: 'NodeJS',
-    duration: 10,
-    educator: 'Dani'
-  });
-}
-
-routes.get('/', (request: Request, response: Response) => {
-  createCourse();
-  return response.json({message: 'Hello World'});
-})
-
+routes.use('/categories', categoriesRoutes);
 
 export default routes;
