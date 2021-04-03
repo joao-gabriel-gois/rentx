@@ -1,14 +1,25 @@
-import Category from '../models/Category';
-import ICreateCategoryDTO from './DTOs/ICreateCategoryDTO';
-import ICategoriesRepository from './ICategoriesRepository';
+import Category from '../../models/Category';
+import ICreateCategoryDTO from '.././DTOs/ICreateCategoryDTO';
+import ICategoriesRepository from '../ICategoriesRepository';
 
 export default class CategoriesRepository implements ICategoriesRepository {
   private categories: Category[];
 
-  constructor() {
+  private constructor() {
     this.categories = [];
   }
 
+  // Singleton {
+  private static INSTANCE: CategoriesRepository;
+
+  public static getInstance(): CategoriesRepository {
+    if(!CategoriesRepository.INSTANCE) {
+      CategoriesRepository.INSTANCE = new CategoriesRepository();
+    }
+
+    return CategoriesRepository.INSTANCE;
+  }
+  // }
   
   create({name, description}: ICreateCategoryDTO): void {  
     const category = new Category();

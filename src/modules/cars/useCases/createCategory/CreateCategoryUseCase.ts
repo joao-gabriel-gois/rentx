@@ -1,17 +1,13 @@
-import AppError from "../error/AppError";
-import ICategoriesRepository from "../repositories/ICategoriesRepository";
+import AppError from "../../../../error/AppError";
+import ICategoriesRepository from "../../repositories/ICategoriesRepository";
 
 interface IRequest {
   name: string;
   description: string;
 }
 
-export default class CreateCategoryService {
-  private categoriesRepository;
-
-  constructor(categoriesRepository: ICategoriesRepository) {
-    this.categoriesRepository = categoriesRepository;
-  }
+export default class CreateCategoryUseCase {
+  constructor(private categoriesRepository: ICategoriesRepository) {};
 
   execute({name, description}: IRequest): void {
     const hasThisCategory = this.categoriesRepository.findByName(name);
