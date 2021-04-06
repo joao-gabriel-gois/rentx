@@ -115,7 +115,12 @@
                   "file": {
                     "type": "string",
                     "format": "binary",
-                    "description": "CSV File"
+                    "description": "CSV File",
+                    "properties": {
+                      "path": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
@@ -202,6 +207,10 @@
                   "description": {
                     "type": "string"
                   }
+                },
+                "example": {
+                  "name": "Spec Name Sample",
+                  "description": "Spec Description Sample"
                 }
               }
             }
