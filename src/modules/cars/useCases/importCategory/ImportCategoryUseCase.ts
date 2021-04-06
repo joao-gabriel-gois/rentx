@@ -1,6 +1,7 @@
 import fs from 'fs';
 import csvParse from 'csv-parse';
 import ICategoriesRepository from '../../repositories/ICategoriesRepository';
+import AppError from '../../../../error/AppError';
 
 interface IImportedCategory {
   name: string;
@@ -27,9 +28,10 @@ export default class ImportCategoryUseCase {
           description,
         });
       }).on('end', () => {
+        fs.promises.unlink(file.path);
         resolve(categories);
       }).on('error', (error) => {
-        reject(error);
+        reject(new AppError(error.message));
       });
 
     });
