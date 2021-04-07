@@ -9,13 +9,15 @@ interface IRequest {
 export default class CreateSpecificationUseCase {
   constructor(private specificationsRepository: ISpecificationsRepository) {};
   
-  execute({name, description}: IRequest): void {
-    const hasThisSpecification = this.specificationsRepository.findByName(name);
+  async execute({name, description}: IRequest): Promise<void> {
+    const hasThisSpecification = await this.specificationsRepository.findByName(name);
 
     if (hasThisSpecification) {
       throw new AppError('Specification already exists!');
     }
 
-    this.specificationsRepository.create({name, description});
+    const specification = await this.specificationsRepository.create({name, description});
+
+    await this.specificationsRepository.save(specification);
   }
 }
