@@ -7,6 +7,7 @@ export default function errorHandler(
   response: Response,
   next: NextFunction
 ) {
+  console.log('middleware')
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
       error: error.message,

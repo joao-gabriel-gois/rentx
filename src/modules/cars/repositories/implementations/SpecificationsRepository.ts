@@ -1,6 +1,6 @@
 import { getRepository, Repository } from "typeorm";
 import Specification from "../../entities/Specification";
-import ICreateSpecificationDTO from "../DTOs/ICreateSpecificationDTO";
+import ICreateSpecificationDTO from "../../DTOs/ICreateSpecificationDTO";
 import ISpecificationsRepository from "../ISpecificationsRepository";
 
 export default class SpecificationsRepository implements ISpecificationsRepository {
@@ -10,25 +10,13 @@ export default class SpecificationsRepository implements ISpecificationsReposito
     this.repository = getRepository(Specification);
   }
   
-  // Singleton {
-  private static INSTANCE: SpecificationsRepository;
-  
-  public static getInstance(): SpecificationsRepository {
-    if(!SpecificationsRepository.INSTANCE) {
-      SpecificationsRepository.INSTANCE = new SpecificationsRepository();
-    }
-    
-    return SpecificationsRepository.INSTANCE;
-  }
-  // }
-  
-  create({ name, description }: ICreateSpecificationDTO): Specification {
+  async create({ name, description }: ICreateSpecificationDTO): Promise<void> {
     const specification = this.repository.create({
       name,
       description
     });
     
-    return specification;
+    await this.repository.save(specification);
   }
   
   async list(): Promise<Specification[]> {
@@ -41,7 +29,4 @@ export default class SpecificationsRepository implements ISpecificationsReposito
     return specification;
   }
   
-  async save(specification: Specification): Promise<void> {
-    await this.repository.save(specification);
-  }
 }

@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "RentalX Documentation",
+    "title": "RentX Documentation",
     "description": "This is an API for a car rent service",
     "version": "1.0.0",
     "contact": {
@@ -18,20 +18,8 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }                  
-                },
-                "example": {
-                  "name": "Category Name Sample",
-                  "description": "Category Description Sample"
-                }
+              "schema":  {
+                "$ref": "#/definitions/Category"
               }
             }
           }
@@ -41,17 +29,11 @@
             "description": "Created"
           },
           "400": {
-            "application/json": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
                 }
               }
             }
@@ -67,33 +49,21 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
+                "schema":  {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/definitions/Category"
                   }
                 }
               }
             }
           },
           "400": {
+            "description": "Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/definitions/Error"
                 }
               }
             }
@@ -132,15 +102,11 @@
             "description": "Categories imported!"
           },
           "400": {
+            "description": "Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/definitions/Error"
                 }
               }
             }
@@ -161,30 +127,18 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/definitions/Specification"
                   }
                 }
               }
             }
           },
           "400": {
+            "description": "Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/definitions/Error"
                 }
               }
             }
@@ -199,19 +153,7 @@
           "content": {
             "application/json": {
               "schema":{
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "name": "Spec Name Sample",
-                  "description": "Spec Description Sample"
-                }
+                "$ref": "#/definitions/Specification"
               }
             }
           }
@@ -221,19 +163,55 @@
             "description": "Created"
           },
           "400": {
+            "description": "Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/definitions/Error"
                 }
               }
             }
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Category": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+        "type": "string"
+        }
+      },
+      "example": {
+        "name": "Spec Name Sample",
+        "description": "Spec Description Sample"
+      }
+    },
+    "Specification": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "Spec Name Sample",
+        "description": "Spec Description Sample"
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
         }
       }
     }

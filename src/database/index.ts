@@ -1,4 +1,6 @@
 import { createConnection, getConnectionOptions } from 'typeorm';
+// import Category from '../modules/cars/entities/Category';
+// import Specifications from '../modules/cars/entities/Specification';
 
 interface IOptions {
   host: string;
