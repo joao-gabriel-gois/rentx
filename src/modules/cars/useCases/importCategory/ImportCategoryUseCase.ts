@@ -1,7 +1,7 @@
 import fs from 'fs';
 import csvParse from 'csv-parse';
 import ICategoriesRepository from '../../repositories/ICategoriesRepository';
-import AppError from '../../../../error/AppError';
+import AppError from '../../../../errors/AppError';
 import { inject, injectable } from 'tsyringe';
 
 interface IImportedCategory {

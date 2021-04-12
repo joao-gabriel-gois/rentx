@@ -1,20 +1,22 @@
 import { NextFunction, Request, Response } from "express";
-import AppError from "../error/AppError";
+import AppError from "../errors/AppError";
 
-export default function errorHandler(
+// why it is not working anymore when app is running inside docker?
+// Need to figure out why!
+
+export default async function errorHandler(
   error: Error,
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  console.log('middleware')
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
-      error: error.message,
+      message: error.message,
     })
   }
 
   return response.status(500).json({
-    error: error.message,
+    error: `Internal Server Error - ${error.message}`,
   });
 }
