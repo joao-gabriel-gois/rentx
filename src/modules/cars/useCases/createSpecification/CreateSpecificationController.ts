@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { container } from "tsyringe";
 import CreateSpecificationUseCase from "./CreateSpecificationUseCase";
 
-export default class CreateSpecificationController {
+class CreateSpecificationController {
 
   async handle(request: Request, response: Response): Promise<Response> {
     const { name, description } = request.body;
@@ -14,3 +14,5 @@ export default class CreateSpecificationController {
   }
 
 }
+
+export { CreateSpecificationController };
