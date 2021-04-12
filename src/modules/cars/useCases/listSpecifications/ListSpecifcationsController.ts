@@ -3,7 +3,7 @@ import { container } from "tsyringe";
 
 import ListSpecificationsUseCase from "./ListSpecificationsUseCase";
 
-export default class ListSpecificationsController {
+class ListSpecificationsController {
 
   async handle(request: Request, response: Response): Promise<Response> {
     const listSpecificationsUseCase = container.resolve(ListSpecificationsUseCase);
@@ -12,3 +12,5 @@ export default class ListSpecificationsController {
     return response.json(specifications);
   }
 }
+
+export { ListSpecificationsController };

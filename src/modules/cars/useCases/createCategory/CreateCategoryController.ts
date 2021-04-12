@@ -3,7 +3,7 @@ import { container } from "tsyringe";
 
 import CreateCategoryUseCase from "./CreateCategoryUseCase";
 
-export default class CreateCategoryController {
+class CreateCategoryController {
 
   async handle(request: Request, response: Response): Promise<Response> {
     const { name, description } = request.body;
@@ -15,3 +15,5 @@ export default class CreateCategoryController {
   }
 
 }
+
+export { CreateCategoryController };
