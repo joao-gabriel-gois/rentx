@@ -184,12 +184,12 @@
           "type": "string"
         },
         "description": {
-        "type": "string"
+          "type": "string"
         }
       },
       "example": {
-        "name": "Spec Name Sample",
-        "description": "Spec Description Sample"
+        "name": "Category Name Sample",
+        "description": "Category Description Sample"
       }
     },
     "Specification": {

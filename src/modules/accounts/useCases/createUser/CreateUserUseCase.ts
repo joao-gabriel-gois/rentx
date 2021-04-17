@@ -1,8 +1,10 @@
-import { hash } from "bcrypt";
-import { inject, injectable } from "tsyringe";
-import AppError from "../../../../errors/AppError";
-import ICreateUserDTO from "../../DTOs/ICreateUserDTO";
-import IUsersRepository from "../../repositories/IUsersRepository";
+import { hash } from 'bcrypt';
+import { inject, injectable } from 'tsyringe';
+
+import AppError from '@errors/AppError';
+
+import ICreateUserDTO from '@modules/accounts/DTOs/ICreateUserDTO';
+import IUsersRepository from '@modules/accounts/repositories/IUsersRepository';
 
 interface IRequest extends ICreateUserDTO {};
 
