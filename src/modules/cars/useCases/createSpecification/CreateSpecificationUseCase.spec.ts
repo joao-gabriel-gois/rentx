@@ -1,5 +1,5 @@
 
-import AppError from '@errors/AppError';
+import AppError from '@shared/errors/AppError';
 import ICreateSpecificationDTO from '@modules/cars/DTOs/ICreateSpecificationDTO';
 import SpecificationsRepositoryInMemory from '@modules/cars/repositories/in-memory/SpecificationsRepositoryInMemory'
 import ISpecificationsRepository from '@modules/cars/repositories/ISpecificationsRepository';

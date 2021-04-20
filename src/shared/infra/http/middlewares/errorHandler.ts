@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import AppError from "../errors/AppError";
+import AppError from "@shared/errors/AppError";
 
 // why it is not working anymore when app is running inside docker?
 // Need to figure out why!

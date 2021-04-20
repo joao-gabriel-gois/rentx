@@ -9,9 +9,6 @@
     "paths": {
       "@modules/*": ["modules/*"],
       "@config/*": ["config/*"],
-      "@errors/*": ["errors/*"],
-      "@database/*": ["database/*"],
-      "@middlewares/*": ["middlewares/*"],
       "@utils/*": ["utils/*"],
       "@shared/*": ["shared/*"]
     },

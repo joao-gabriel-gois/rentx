@@ -1,8 +1,8 @@
-import AppError from '@errors/AppError';
+import AppError from '@shared/errors/AppError';
 import UsersRepositoryInMemory from '@modules/accounts/repositories/in-memory/UserRepositoryInMemory';
 
 import ICreateUserDTO from '@modules/accounts/DTOs/ICreateUserDTO';
-import User from '@modules/accounts/entities/User';
+import User from '@modules/accounts/infra/typeorm/entities/User';
 
 import CreateUserUseCase from '../createUser/CreateUserUseCase';
 import AuthenticateUserUseCase from './AuthenticateUserUseCase';
