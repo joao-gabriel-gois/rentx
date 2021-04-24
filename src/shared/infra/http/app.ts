@@ -8,8 +8,10 @@ import errorHandler from '@shared/infra/http/middlewares/errorHandler';
 import routes from '@shared/infra/http/routes';
 import swaggerFile from '../../../swagger.json';
 
-import '@shared/infra/typeorm';
+import createConnection from '@shared/infra/typeorm';
 import '@shared/container';
+
+createConnection();
 
 const app = express();
 

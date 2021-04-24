@@ -1,4 +1,5 @@
 import ICreateCarDTO from "@modules/cars/DTOs/ICreateCarDTO";
+import IListAvailableCarsDTO from "@modules/cars/DTOs/IListAvailableCarsDTO";
 import ICarsRepository from "@modules/cars/repositories/ICarsRepository";
 import { getRepository, Repository } from "typeorm";
 import Car from "../entities/Car";
@@ -27,6 +28,35 @@ export default class CarsRepository implements ICarsRepository {
     });
 
     return car;
+  }
+
+  async findAvailableCars({ name, brand, category_id }: IListAvailableCarsDTO = {}): Promise<Car[]> {
+    const carsQuery = await this.repository
+      .createQueryBuilder('car')
+      .where('available = :available', { available: true});
+
+    if (name) {
+      carsQuery.andWhere('name = :name', { name });
+    }
+      
+    if (brand) {
+      carsQuery.andWhere('brand = :brand', { brand });
+    }
+
+    if (category_id) {
+      carsQuery.andWhere('category_id = :category_id', { category_id });
+    }
+
+    const cars = await carsQuery.getMany();
+
+    // My previous approach, check if it works later:
+    // const cars = await this.repository.find({
+    //   where: {
+    //     available: true,
+    //     ...data
+    //   }
+    // });
+    return cars;
   }
 
 }
