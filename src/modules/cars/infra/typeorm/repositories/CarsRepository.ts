@@ -16,18 +16,22 @@ export default class CarsRepository implements ICarsRepository {
   
   async create(data: ICreateCarDTO): Promise<Car> {
     const car = this.repository.create(data);
-
+    
     await this.repository.save(car);
-
+    
     return car;
   }
-
+  
   async findByLicensePlate(license_plate: string): Promise<Car | undefined> {
     const car = await this.repository.findOne({
       license_plate,
     });
-
+    
     return car;
+  }
+  
+  async findById(id: string): Promise<Car | undefined> {
+    return await this.repository.findOne(id);
   }
 
   async findAvailableCars({ name, brand, category_id }: IListAvailableCarsDTO = {}): Promise<Car[]> {

@@ -10,17 +10,23 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
   constructor() {
     this.carsRepository = [];
   }
-
+  
   async create(data: ICreateCarDTO): Promise<Car> {
     const car = new Car();
     
     Object.assign(car, data);
     
     this.carsRepository.push(car);
-
+    
     return car;
   }
   
+  async findById(id: string): Promise<Car | undefined> {
+    const car = this.carsRepository.find(car => car.id === id);
+
+    return car;
+  }
+
   async findByLicensePlate(license_plate: string): Promise<Car | undefined> {
     const car = this.carsRepository.find(car => car.license_plate === license_plate);
 
