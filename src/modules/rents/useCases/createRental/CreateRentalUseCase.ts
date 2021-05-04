@@ -1,15 +1,21 @@
 import ICreateRentalDTO from '@modules/rents/DTOs/ICreateRentalDTO';
 import Rental from '@modules/rents/infra/typeorm/entities/Rental';
 import IRentsRepository from '@modules/rents/repositories/IRentsRepository';
+import IDateProvider from '@shared/container/providers/DateProvider/IDateProvider';
 import AppError from '@shared/errors/AppError';
-import dateHandler from '@utils/dateHandler';
-
-dateHandler.set();
+import { inject, injectable } from 'tsyringe';
 
 interface IRequest extends ICreateRentalDTO {};
 
+@injectable()
 export default class CreateRentalUseCase {
-  constructor(private rentsRepository: IRentsRepository) {};
+  constructor(
+    @inject('RentsRepository')
+    private rentsRepository: IRentsRepository,
+
+    @inject('DateProvider')
+    private dateProvider: IDateProvider,
+  ) {};
 
   async execute({
     user_id,
@@ -31,7 +37,7 @@ export default class CreateRentalUseCase {
     }
 
     // The rental must have 24h of minimum duration
-    const comparison = dateHandler.comparisonResultInHours(expected_return_date);
+    const comparison = this.dateProvider.comparisonResultInHours(expected_return_date);
 
     if (comparison < rentalMinimumExpirationTimeInHours) {
       throw new AppError('Invalid expected return date, minimum rental expiration is 24 hours');

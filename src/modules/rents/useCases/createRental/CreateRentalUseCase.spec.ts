@@ -1,20 +1,24 @@
 import dayjs from 'dayjs';
 
-import RentsRepositoryInMemory from '@modules/rents/infra/typeorm/repositories/in-memory/RentsRepositoryInMemory';
+import RentsRepositoryInMemory from '@modules/rents/repositories/in-memory/RentsRepositoryInMemory';
 import IRentsRepository from '@modules/rents/repositories/IRentsRepository';
 import CreateRentalUseCase from '@modules/rents/useCases/createRental/CreateRentalUseCase';
 import AppError from '@shared/errors/AppError';
+import IDateProvider from '@shared/container/providers/DateProvider/IDateProvider';
+import DayjsDateProvider from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
 
 
 let createRentalUseCase: CreateRentalUseCase;
 let rentsRepository: IRentsRepository;
+let dateProvider: IDateProvider;
 
 describe("Create Rental", () => {
   const tomorrowDate = dayjs().add(1, 'day').toDate();
 
   beforeEach(() => {
     rentsRepository = new RentsRepositoryInMemory();
-    createRentalUseCase = new CreateRentalUseCase(rentsRepository);
+    dateProvider = new DayjsDateProvider();
+    createRentalUseCase = new CreateRentalUseCase(rentsRepository, dateProvider);
   });
 
   it('should be able to create a new rental', async () => {

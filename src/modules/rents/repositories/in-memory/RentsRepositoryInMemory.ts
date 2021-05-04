@@ -1,6 +1,6 @@
 import ICreateRentalDTO from "@modules/rents/DTOs/ICreateRentalDTO";
 import IRentsRepository from "@modules/rents/repositories/IRentsRepository";
-import Rental from "../../entities/Rental";
+import Rental from "../../infra/typeorm/entities/Rental";
 
 
 export default class RentsRepositoryInMemory implements IRentsRepository {
