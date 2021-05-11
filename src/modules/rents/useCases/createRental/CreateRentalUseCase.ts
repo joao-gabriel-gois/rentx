@@ -1,3 +1,4 @@
+import ICarsRepository from '@modules/cars/repositories/ICarsRepository';
 import ICreateRentalDTO from '@modules/rents/DTOs/ICreateRentalDTO';
 import Rental from '@modules/rents/infra/typeorm/entities/Rental';
 import IRentsRepository from '@modules/rents/repositories/IRentsRepository';
@@ -12,6 +13,9 @@ export default class CreateRentalUseCase {
   constructor(
     @inject('RentsRepository')
     private rentsRepository: IRentsRepository,
+
+    @inject('CarsRepository')
+    private carsRepository: ICarsRepository,
 
     @inject('DateProvider')
     private dateProvider: IDateProvider,
@@ -37,17 +41,20 @@ export default class CreateRentalUseCase {
     }
 
     // The rental must have 24h of minimum duration
-    const comparison = this.dateProvider.comparisonResultInHours(expected_return_date);
+    const dateNow = this.dateProvider.dateNow();
+    const comparison = this.dateProvider.comparisonResultInHours(dateNow, expected_return_date);
 
     if (comparison < rentalMinimumExpirationTimeInHours) {
       throw new AppError('Invalid expected return date, minimum rental expiration is 24 hours');
     }
 
-    const rental = await this.rentsRepository.create({
+    const rental = await this.rentsRepository.createOrUpdate({
       user_id,
       car_id,
-      expected_return_date
+      expected_return_date,
     });
+
+    await this.carsRepository.updateAvailability(car_id, false);
 
     return rental;
     

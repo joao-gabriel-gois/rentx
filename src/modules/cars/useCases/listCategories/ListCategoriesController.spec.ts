@@ -8,11 +8,11 @@ import createConnection from '@shared/infra/typeorm';
 
 let connection: Connection;
 
-let counter = 0
+let counter = 0;
 function createCategoryInfo() {
   return {
     name: `Category Supertest ${++counter}`,
-    description: 'Category Supertest Description'
+    description: `Category Supertest Description ${counter}`
   }
 }
 

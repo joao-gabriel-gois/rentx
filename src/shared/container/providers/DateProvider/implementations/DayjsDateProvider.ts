@@ -6,28 +6,37 @@ import IDateProvider from "../IDateProvider";
 dayjs.extend(utc);
 
 export default class DayjsDateProvider implements IDateProvider {
-  formatToUTC(date?: Date) {
+  dateNow() {
+    return dayjs().toDate();
+  }
+
+  formatToUTC(date: Date) {
     return (
-      date ? 
-        dayjs(date)
-          .utc()
-          .local()
-          .format()
-        :
-        // default is current date
-        dayjs().utc().local().format()
+      dayjs(date)
+        .utc()
+        .local()
+        .format()
     );
   }
 
-  comparisonResultInHours(date: Date, compareDate?: Date) {
-    // default compareDate is current date
-
+  comparisonResultInHours(start_date: Date, end_date: Date): number {
     return (
       dayjs(
-        this.formatToUTC(date)
+        this.formatToUTC(end_date)
       ).diff(
-        this.formatToUTC(compareDate && compareDate),
+        this.formatToUTC(start_date),
         'hours'
+      )
+    );
+  }
+
+  comparisonResultInDays(start_date: Date, end_date: Date): number {
+    return (
+      dayjs(
+        this.formatToUTC(end_date)
+      ).diff(
+        this.formatToUTC(start_date),
+        'days'
       )
     );
   }

@@ -10,7 +10,6 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
   constructor() {
     this.carsRepository = [];
   }
-  
   async create(data: ICreateCarDTO): Promise<Car> {
     const car = new Car();
     
@@ -23,37 +22,44 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
   
   async findById(id: string): Promise<Car | undefined> {
     const car = this.carsRepository.find(car => car.id === id);
-
+    
     return car;
   }
-
+  
   async findByLicensePlate(license_plate: string): Promise<Car | undefined> {
     const car = this.carsRepository.find(car => car.license_plate === license_plate);
-
+    
     return car;
   }
-
+  
   async findAvailableCars(data?: IListAvailableCarsDTO): Promise<Car[]> {
     let cars;
-
+    
     if (data) {
       cars = this.carsRepository.filter(car => {
         if (
-            car.available &&
-            (data?.name && car.name === data?.name) ||
-            (data?.brand && car.brand === data?.brand) ||
-            (data?.category_id && car.category_id === data?.category_id)
-        ) {
-          return car;
-        }
-        return null;
-      });
+          car.available &&
+          (data?.name && car.name === data?.name) ||
+          (data?.brand && car.brand === data?.brand) ||
+          (data?.category_id && car.category_id === data?.category_id)
+          ) {
+            return car;
+          }
+          return null;
+        });
+      }
+      else {
+        cars = this.carsRepository.filter(car => car.available === true);
+      }
+      
+      return cars;
     }
-    else {
-      cars = this.carsRepository.filter(car => car.available === true);
-    }
+    
+    
+    async updateAvailability(id: string, available: boolean): Promise<void> {
+      const carIndex = this.carsRepository.findIndex(car => car.id === id);
 
-    return cars;
+      this.carsRepository[carIndex].available = available;
+    }
+    
   }
-
-}

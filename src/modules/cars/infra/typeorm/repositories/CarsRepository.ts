@@ -13,7 +13,6 @@ export default class CarsRepository implements ICarsRepository {
   constructor() {
     this.repository = getRepository(Car);
   }
-  
   async create(data: ICreateCarDTO): Promise<Car> {
     const car = this.repository.create(data);
     
@@ -33,26 +32,26 @@ export default class CarsRepository implements ICarsRepository {
   async findById(id: string): Promise<Car | undefined> {
     return await this.repository.findOne(id);
   }
-
+  
   async findAvailableCars({ name, brand, category_id }: IListAvailableCarsDTO = {}): Promise<Car[]> {
     const carsQuery = await this.repository
-      .createQueryBuilder('car')
-      .where('available = :available', { available: true});
-
+    .createQueryBuilder('car')
+    .where('available = :available', { available: true});
+    
     if (name) {
       carsQuery.andWhere('name = :name', { name });
     }
-      
+    
     if (brand) {
       carsQuery.andWhere('brand = :brand', { brand });
     }
-
+    
     if (category_id) {
       carsQuery.andWhere('category_id = :category_id', { category_id });
     }
-
+    
     const cars = await carsQuery.getMany();
-
+    
     // My previous approach, check if it works later:
     // const cars = await this.repository.find({
     //   where: {
@@ -62,5 +61,18 @@ export default class CarsRepository implements ICarsRepository {
     // });
     return cars;
   }
+      
+      
+  async updateAvailability(id: string, available: boolean): Promise<void> {
+    const car = await this.repository
+      .createQueryBuilder()
+      .update()
+      .set({ available })
+      .where('id = :id')
+      .setParameters({id})
+      .execute()
 
+    console.log(car);    
+
+  }
 }

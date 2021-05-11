@@ -1,4 +1,6 @@
 export default interface IDateProvider {
-  formatToUTC(date?: Date): string,
-  comparisonResultInHours(date: Date, compareDate?: Date): number;
+  dateNow(): Date;
+  formatToUTC(date: Date): string,
+  comparisonResultInHours(start_date: Date, end_date: Date): number;
+  comparisonResultInDays(start_date: Date, end_date: Date): number;
 }
