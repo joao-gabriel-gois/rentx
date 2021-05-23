@@ -15,6 +15,9 @@
         "tags": ["Category"],
         "summary": "It will create a new category",
         "description": "Route that allow who call it to create a new car category",
+        "security": [
+          { "bearerAuth": [] }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -174,6 +177,118 @@
           }
         }
       }
+    },
+    "/sessions": {
+      "post": {
+        "tags": ["Sessions"],
+        "summary": "User Authentication",
+        "description": "It will authenticate an exsting user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "reponses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Incorrect email or password",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Create a new car",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Car"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Created"
+        },
+        "400": {
+          "description": "Car already exists",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/images/{id}": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Upload images",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "paramaters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Car ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -207,12 +322,47 @@
         "description": "Spec Description Sample"
       }
     },
+    "Car": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "daily_rate": {
+          "type": "number"
+        },
+        "license_plate": {
+          "type": "string"
+        },
+        "fine_amount": {
+          "type": "string"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "string"
+        }
+      }
+    },
     "Error": {
       "type": "object",
       "properties": {
         "error": {
           "type": "string"
         }
+      }
+    }
+  },
+  "components": {
+    "secutirySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

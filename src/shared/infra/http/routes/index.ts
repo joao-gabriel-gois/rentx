@@ -5,7 +5,7 @@ import { categoriesRoutes } from './categories.routes';
 import { specificationsRoutes } from './specifications.routes';
 import { usersRoutes } from './users.routes';
 import { carsRoutes } from './cars.routes';
-import { rentsRoutes } from './rentes.routes';
+import { rentsRoutes } from './rents.routes';
 
 const routes = Router();
 

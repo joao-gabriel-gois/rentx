@@ -11,11 +11,25 @@ import ListRentsByUserUseCase from "./ListRentsByUserUseCase";
 import { getDateObj, parseMonth } from "@utils/dateHandler";
 
 
+
 let usersRepository: IUsersRepository;
 let carsRepository: ICarsRepository;
 let rentsRepository: IRentsRepository;
 
 let listRentsByUserUseCase: ListRentsByUserUseCase;
+
+let carNumber= 0;
+async function createCar() {
+  return await carsRepository.create({
+    name: `Test ${++carNumber}`,
+    description: 'Test description',
+    daily_rate: 70,
+    license_plate: 'AAA-4444',
+    fine_amount: 20,
+    brand: 'Volkswagen',
+    category_id: 'any-category-id',
+  });
+}
 
 describe('List Rents By User', () => {
   beforeAll(() => {
@@ -36,37 +50,31 @@ describe('List Rents By User', () => {
 
     const user = await usersRepository.findByEmail('test@user.com');
     
-    let testNumber = 0;
-    let car: Car;
+    let cars: Car[] = [];
 
-    for (testNumber; testNumber > 5; testNumber++) {
-      car = await carsRepository.create({
-        name: `Test ${testNumber}`,
-        description: `Test ${testNumber} description`,
-        daily_rate: 40,
-        license_plate: `TST-${testNumber}`,
-        fine_amount: 20,
-        brand: `Turbo ${testNumber + 1}000x`,
-        category_id: `fake-category-id-${testNumber}`
-      });
-
+    for (let i = 0; i < 5; i++) {
+      const car = await createCar();
+      cars.push(car)
+      
       const today = getDateObj(new Date());
       const tomorrowDate = new Date(`${today.year}-${parseMonth(today.month)}-${today.day + 1}`);
-      
+
       await rentsRepository.createOrUpdate({
         user_id: `${user!.id}`,
-        car_id: car!.id,
+        car_id: car.id || 'no-car',
         expected_return_date: tomorrowDate
       });
     }
 
+
     const allRentsFromUser = await listRentsByUserUseCase.execute(`${user!.id}`);
+
 
     expect(allRentsFromUser.length).toBe(5);
     expect(allRentsFromUser).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ 
-          car_id: car!.id,
+          car_id: cars[0].id,
           user_id: user!.id
         })
       ])

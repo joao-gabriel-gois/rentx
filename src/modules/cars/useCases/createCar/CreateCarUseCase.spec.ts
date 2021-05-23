@@ -30,20 +30,21 @@ describe('Create Car', () => {
   });
 
   it('should not be able to create a car with existing license plate', async () => {
-    expect(async () => {
-      const carRequestData: ICreateCarDTO = {
-        name: 'test',
-        description: 'test description',
-        daily_rate: 100,
-        license_plate: 'fake-lincense-plate',
-        fine_amount: 60,
-        brand: 'Toyota',
-        category_id: 'fake-uuid'
+    const carRequestData: ICreateCarDTO = {
+      name: 'test',
+      description: 'test description',
+      daily_rate: 100,
+      license_plate: 'fake-lincense-plate',
+      fine_amount: 60,
+      brand: 'Toyota',
+      category_id: 'fake-uuid'
     };
 
     await createCarUseCase.execute(carRequestData);
-    await createCarUseCase.execute(carRequestData);
-    }).rejects.toBeInstanceOf(AppError);
+
+    await expect(
+      createCarUseCase.execute(carRequestData)
+    ).rejects.toEqual(new AppError('This car already exists!'));
   });
 
 });

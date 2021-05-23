@@ -32,16 +32,16 @@ describe('Create Specitifcation', () => {
   });
 
   it('should not be able to duplicate a category', async () => {
-    expect(async () => {
-      const specificationRequestData: ICreateSpecificationDTO = {
-        name: 'test',
-        description: 'testing',
-      };
-  
-      await createSpecitifcation.execute(specificationRequestData);
-      await createSpecitifcation.execute(specificationRequestData);
-    })
-    .rejects.toBeInstanceOf(AppError);
+    const specificationRequestData: ICreateSpecificationDTO = {
+      name: 'test',
+      description: 'testing',
+    };
+
+    await createSpecitifcation.execute(specificationRequestData);
+
+    await expect(
+      createSpecitifcation.execute(specificationRequestData)
+    ).rejects.toEqual(new AppError('Specification already exists!'));
   });
 
 });

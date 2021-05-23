@@ -29,7 +29,7 @@ async function createCar() {
     daily_rate: 70,
     license_plate: 'AAA-4444',
     fine_amount: 20,
-    brand: 'Wolskvagen',
+    brand: 'Volkswagen',
     category_id: 'any-category-id',
   });
 }
@@ -65,36 +65,33 @@ describe("Create Rental", () => {
     expect(rental).toHaveProperty('start_date');
   });
 
-  it('should not be able to create a new rental if there is another open rental for this car', () => {
-    expect(async () => {
-      await createRentalUseCase.execute({
+  it('should not be able to create a new rental if there is another open rental for this car', async () => {
+    await expect(createRentalUseCase.execute({
         user_id: 'any-other-user-id',
         car_id: car.id,
         expected_return_date: tomorrowDate,
-      });
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError('Car is unavailable!'));
   });
 
-  it('should not be able to create a new rental if there is another open rental for this same user', () => {
-    expect(async () => {
-      await createRentalUseCase.execute({
+  it('should not be able to create a new rental if there is another open rental for this same user', async () => {
+    await expect(
+       createRentalUseCase.execute({
         user_id: 'any-user-id',
         car_id: otherCar.id,
         expected_return_date: tomorrowDate,
-      });
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError('User has remaining rentals in progress!'));
   });
 
-  it('should not be able to create a new rental if duration lesser than 24 hours', () => {
-    expect(async () => {
-      const sixHoursFromNow = dayjs().add(6, 'hours').toDate();
-
-      await createRentalUseCase.execute({
+  it('should not be able to create a new rental if duration lesser than 24 hours', async () => {
+    const sixHoursFromNow = dayjs().add(6, 'hours').toDate();
+    await expect(
+      createRentalUseCase.execute({
         user_id: 'any-other-user-id',
         car_id: otherCar.id,
         expected_return_date: sixHoursFromNow,
-      });
-
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError('Invalid expected return date, minimum rental expiration is 24 hours'));
   });
 });

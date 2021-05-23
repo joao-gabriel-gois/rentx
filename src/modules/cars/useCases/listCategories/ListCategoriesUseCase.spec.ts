@@ -1,5 +1,3 @@
-
-import AppError from '@shared/errors/AppError';
 import ICreateCategoryDTO from '@modules/cars/DTOs/ICreateCategoryDTO';
 import ICategoriesRepository from '@modules/cars/repositories/ICategoriesRepository';
 import CategoriesRepositoryInMemory from '@modules/cars/repositories/in-memory/CategoriesRepositoryInMemory';

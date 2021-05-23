@@ -28,13 +28,13 @@ export default class AuthenticateUserUseCase {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError('Email or password incorrect!');
+      throw new AppError('Incorrect Email or password!');
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new AppError('Email or password incorrect!');
+      throw new AppError('Incorrect Email or password!');
     }
 
     // only for example, generated from md5, with this input: pudãoignitenode_ultrasecure_hash

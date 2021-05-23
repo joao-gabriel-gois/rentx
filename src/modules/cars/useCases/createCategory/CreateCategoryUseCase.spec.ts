@@ -30,19 +30,19 @@ describe('Create Category', () => {
     );
   });
 
+  
   it('should not be able to duplicate a category', async () => {
-    expect(async () => {
-      const categoryRequestData: ICreateCategoryDTO = {
-        name: 'test',
-        description: 'testing',
-      };
+    const categoryRequestData: ICreateCategoryDTO = {
+      name: 'test',
+      description: 'testing',
+    };
+  
+    await createCategory.execute(categoryRequestData);
 
-      await createCategory.execute(categoryRequestData);
-    
+    await expect(
       // duplicating category bellow
-      await createCategory.execute(categoryRequestData);
-    })
-    .rejects.toBeInstanceOf(AppError);
+      createCategory.execute(categoryRequestData)
+    ).rejects.toEqual(new AppError('Category Already Exists!'));
   });
 
 });
