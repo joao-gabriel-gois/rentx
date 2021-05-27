@@ -9,8 +9,8 @@ export default async (host = 'database'): Promise<Connection> => {
       database: 
         process.env.NODE_ENV === 'test'
         ? 'rentx_test'
-        : defaultOptions.database
-      ,
+        : defaultOptions.database,
+      name: 'default'
     })
   );
 };

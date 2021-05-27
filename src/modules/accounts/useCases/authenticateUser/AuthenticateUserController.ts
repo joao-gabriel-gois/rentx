@@ -11,6 +11,16 @@ class AuthenticateUserController {
 
     const sessionInfo = await authenticateUserUseCase.execute({ email, password });
     
+    const clientIp = request.ip.split(':')[request.ip.split(':').length - 1];
+
+    console.log(`\nSession started from user with Email: ${
+      email
+    }, using IP: ${
+      clientIp
+    }\nReq Headers:\n${
+      JSON.stringify(request.headers)
+    }`);
+
     return response.json(sessionInfo);
   }
 

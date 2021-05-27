@@ -40,4 +40,8 @@ export default class DayjsDateProvider implements IDateProvider {
       )
     );
   }
+
+  addDaysFromNow(days: number): Date {
+    return dayjs().add(days, 'days').toDate();
+  }
 }

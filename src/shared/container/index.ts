@@ -8,6 +8,7 @@ import ICategoriesRepository from '@modules/cars/repositories/ICategoriesReposit
 import IRentsRepository from '@modules/rents/repositories/IRentsRepository';
 import ISpecificationsRepository from '@modules/cars/repositories/ISpecificationsRepository';
 import IUsersRepository from '@modules/accounts/repositories/IUsersRepository';
+import IUsersTokensRepository from '@modules/accounts/repositories/IUsersTokensRepository';
 
 import CarsImagesRepository from '@modules/cars/infra/typeorm/repositories/CarsImagesRepository';
 import CarsRepository from '@modules/cars/infra/typeorm/repositories/CarsRepository';
@@ -15,6 +16,7 @@ import CategoriesRepository from '@modules/cars/infra/typeorm/repositories/Categ
 import RentsRepository from '@modules/rents/infra/typeorm/repositories/RentsRepository';
 import SpecificationsRepository from '@modules/cars/infra/typeorm/repositories/SpecificationsRepository';
 import UsersRepository from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
+import UsersTokensRepository from '@modules/accounts/infra/typeorm/repositories/UsersTokensRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
@@ -46,3 +48,7 @@ container.registerSingleton<IRentsRepository>(
   RentsRepository
 );
 
+container.registerSingleton<IUsersTokensRepository>(
+  'UsersTokensRepository',
+  UsersTokensRepository
+);
