@@ -22,7 +22,7 @@ export default class UploadCarImagesUseCase {
     const car = await this.carsRepository.findById(car_id);
     
     if (!car) {
-      throw new AppError('Car does not exists', 404);
+      throw new AppError('Car does not exists!', 404);
     }
 
     images_names.map(async (image_name) => {

@@ -8,8 +8,7 @@ import UsersRepositoryInMemory from "@modules/accounts/repositories/in-memory/Us
 
 import ListRentsByUserUseCase from "./ListRentsByUserUseCase";
 
-import { getDateObj, parseMonth } from "@utils/dateHandler";
-
+import addDaysFromNow from "@utils/dateHandler";
 
 
 let usersRepository: IUsersRepository;
@@ -41,7 +40,7 @@ describe('List Rents By User', () => {
   });
 
   it('should be able to list all rents from a certain user', async () => {
-    await usersRepository.create({
+    await usersRepository.createOrUpdate({
       name: "Test User",
       email: "test@user.com",
       password: '123456',
@@ -56,8 +55,7 @@ describe('List Rents By User', () => {
       const car = await createCar();
       cars.push(car)
       
-      const today = getDateObj(new Date());
-      const tomorrowDate = new Date(`${today.year}-${parseMonth(today.month)}-${today.day + 1}`);
+      const tomorrowDate = addDaysFromNow(1);
 
       await rentsRepository.createOrUpdate({
         user_id: `${user!.id}`,

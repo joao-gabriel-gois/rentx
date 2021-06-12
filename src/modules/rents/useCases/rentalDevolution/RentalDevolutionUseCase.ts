@@ -5,13 +5,8 @@ import IDateProvider from "@shared/container/providers/DateProvider/IDateProvide
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
 
-interface IRequest {
-  id: string;
-  user_id: string;
-}
-
 @injectable()
-export default class DevolutionRentalUseCase {
+export default class RentalDevolutionUseCase {
   constructor(
     @inject('RentsRepository')
     private rentsRepository: IRentsRepository,
@@ -23,20 +18,16 @@ export default class DevolutionRentalUseCase {
     private dateProvider: IDateProvider
   ) {};
 
-  async execute({ id, user_id }: IRequest): Promise<Rental> {
+  async execute(id: string): Promise<Rental> {
     const minimumRentalPeriod = 1;
     const dateNow = this.dateProvider.dateNow();
     const rental = await this.rentsRepository.findById(id);
     
-    if (!rental) {
-      throw new AppError('Rental does not exists!');
-    }
+    if (!rental) throw new AppError('Rental does not exists!');
     
     const car = await this.carsRepository.findById(rental!.car_id);
 
-    if (!car) {
-      throw new AppError('Car does not exists!');
-    }
+    if (!car) throw new AppError('Car does not exists!');
 
     let daysRented = this.dateProvider.comparisonResultInDays(rental.start_date, dateNow);
 
@@ -46,17 +37,12 @@ export default class DevolutionRentalUseCase {
 
     const lateReturnDelayInDays = this.dateProvider.comparisonResultInDays(dateNow, rental.expected_return_date);
 
-    console.log(`\nDays Rented: ${daysRented}, Late Return Delay: ${lateReturnDelayInDays}\n`);
-
     let total = 0;
-    
     if (lateReturnDelayInDays > 0) {
       const finalFine = lateReturnDelayInDays * car!.fine_amount;
       total = finalFine;
     }
-
     total += daysRented * car.daily_rate;
-    console.log('\nTOTAL:', total);
 
     rental.end_date = this.dateProvider.dateNow();
     rental.total = total;

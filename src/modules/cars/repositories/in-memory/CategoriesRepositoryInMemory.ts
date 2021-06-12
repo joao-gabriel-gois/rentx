@@ -21,17 +21,13 @@ export default class CategoriesRepositoryInMemory implements ICategoriesReposito
   }
 
   async list(): Promise<Category[]> {
-     return new Promise((resolve, reject) => {
-      resolve(this.categoriesRepository);
-     });
+     return this.categoriesRepository;
   }
 
   async findByName(name: string): Promise<Category | undefined> {
-    return new Promise((resolve, reject) => {
-      const category = this.categoriesRepository.find(category => category.name === name);
+    const category = this.categoriesRepository.find(category => category.name === name);
 
-      resolve(category);
-     });
+    return category;
   }
 
 }

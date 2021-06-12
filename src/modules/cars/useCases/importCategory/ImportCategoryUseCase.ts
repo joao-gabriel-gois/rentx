@@ -20,6 +20,7 @@ export default class ImportCategoryUseCase {
   loadCategories(file: Express.Multer.File): Promise<IImportedCategory[]> {
     return new Promise((resolve, reject) => {
       const stream = fs.createReadStream(file.path);
+      console.log(file.path);
       const categories: IImportedCategory[] = [];
       
       const parseFile = csvParse();

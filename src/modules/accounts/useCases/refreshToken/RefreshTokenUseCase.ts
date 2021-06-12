@@ -1,4 +1,5 @@
 import auth from '@config/auth';
+import UserTokens from '@modules/accounts/infra/typeorm/entities/UserTokens';
 import IUsersTokensRepository from '@modules/accounts/repositories/IUsersTokensRepository';
 import IDateProvider from '@shared/container/providers/DateProvider/IDateProvider';
 import AppError from '@shared/errors/AppError';
@@ -11,7 +12,7 @@ interface IPayload {
 }
 
 @injectable()
-export default class RefrehTokenUseCase {
+export default class RefreshTokenUseCase {
   constructor(
     @inject('UsersTokensRepository')
     private usersTokensRepository: IUsersTokensRepository,
@@ -20,7 +21,7 @@ export default class RefrehTokenUseCase {
     private dateProvider: IDateProvider
   ) {};
   
-  async execute(token: string): Promise<string> {
+  async execute(token: string): Promise<UserTokens> {
     const {
       refresh_token_secret,
       refresh_token_expires_in,    
@@ -45,12 +46,12 @@ export default class RefrehTokenUseCase {
       Number(refresh_token_expires_in.substring(0, 2))
     );
 
-    await this.usersTokensRepository.create({
+    const refreshTokenResponse = await this.usersTokensRepository.create({
       user_id,
       expiration_date,
       refresh_token
     })
-
-    return refresh_token;
+    
+    return refreshTokenResponse;
   }
 }

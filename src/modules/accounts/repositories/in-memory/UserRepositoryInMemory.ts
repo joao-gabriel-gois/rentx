@@ -11,17 +11,25 @@ export default class UsersRepositoryInMemory implements IUsersRepository {
     this.usersRepository = [];
   }
 
-  async create({driver_license, name, email, password}: ICreateUserDTO): Promise<void> {
+  async createOrUpdate(data: ICreateUserDTO): Promise<void> {
     const user = new User();
     
-    Object.assign(user, {
-      driver_license,
-      name,
-      email,
-      password
-    });
+    if (!data.id) {
+      // creation
+      Object.assign(user, {
+        ...data,
+        start_date: new Date()
+      });
+      
+      this.usersRepository.push(user);
+    }
+    else {
+      // update
+      Object.assign(user, data);
 
-    this.usersRepository.push(user);
+      const currentUserIndex = this.usersRepository.findIndex(currentUser => currentUser.id === data.id);
+      this.usersRepository[currentUserIndex] = user;
+    }
   }
 
 

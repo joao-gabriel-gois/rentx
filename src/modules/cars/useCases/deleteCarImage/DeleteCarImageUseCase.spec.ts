@@ -3,26 +3,35 @@ import ICarsImagesRepository from '@modules/cars/repositories/ICarsImagesReposit
 import CarsImagesRepositoryInMemory from '@modules/cars/repositories/in-memory/CarsImagesRepositoryInMemory';
 import CarsRepositoryInMemory from '@modules/cars/repositories/in-memory/CarsRepositoryInMemory';
 import AppError from '@shared/errors/AppError';
+import { createFile, deleteFile, ICreateFakeFileResponse } from '@utils/file';
 import CreateCarUseCase from '../createCar/CreateCarUseCase';
-import UploadCarImagesUseCase from './UploadCarImagesUseCase';
-
+import UploadCarImagesUseCase from '../uploadCarImages/UploadCarImagesUseCase';
+import DeleteCarImageUseCase from './DeleteCarImageUseCase';
 
 let carsRepository: CarsRepositoryInMemory;
 let carsImagesRepository: ICarsImagesRepository;
 
 let createCarUseCase: CreateCarUseCase;
 let uploadCarImagesUseCase: UploadCarImagesUseCase;
+let deleteCarImageUseCase: DeleteCarImageUseCase;
 
-describe('Upload Car Images', () => {
+let residualFile: ICreateFakeFileResponse;
+
+describe('Delete Cars Image', () => {
   beforeEach(() => {
     carsRepository = new CarsRepositoryInMemory();
     carsImagesRepository = new CarsImagesRepositoryInMemory();
     
     createCarUseCase = new CreateCarUseCase(carsRepository);
     uploadCarImagesUseCase = new UploadCarImagesUseCase(carsRepository, carsImagesRepository);
+    deleteCarImageUseCase = new DeleteCarImageUseCase(carsRepository, carsImagesRepository);
   });
 
-  it('should be able to upload car images', async () => {
+  afterAll(async () => {
+    if (residualFile) await deleteFile(residualFile.path);
+  });
+
+  it('should be able to delete a car image', async () => {
     const carRequestData: ICreateCarDTO = {
         name: 'test',
         description: 'test description',
@@ -34,33 +43,52 @@ describe('Upload Car Images', () => {
     };
 
     const car = await createCarUseCase.execute(carRequestData);
-    
+    const fakeImage1 = createFile({ folder: 'cars', filename: 'test_1' });
+    const fakeImage2 = createFile({ folder: 'cars', filename: 'test_2' });
+
     await uploadCarImagesUseCase.execute({
       car_id: car.id,
       images_names: [
-        'test_1',
-        'test_2',
+        fakeImage1.filename,
+        fakeImage2.filename,
       ]
     });
 
-    const carImages = await carsImagesRepository.findByCarId(car.id);
+    const carImagesBeforeDeleting = await carsImagesRepository.findByCarId(car.id);
 
-    expect(carImages).toEqual([
+    await deleteCarImageUseCase.execute({
+      car_id: car.id,
+      image_name: fakeImage1.filename
+    })
+    
+    const carImagesAfterDeleting = await carsImagesRepository.findByCarId(car.id);
+
+    expect(carImagesAfterDeleting.length).toBe(1);
+    expect(carImagesBeforeDeleting.length).toBe(2);
+
+    expect(carImagesAfterDeleting).toEqual([
       expect.objectContaining({
-        image_name: 'test_1',
-      }),
-      expect.objectContaining({
-        image_name: 'test_2',
+        image_name: fakeImage2.filename,
       }),
     ]);
 
+    expect(carImagesBeforeDeleting).toEqual([
+      expect.objectContaining({
+        image_name: fakeImage1.filename,
+      }),
+      expect.objectContaining({
+        image_name: fakeImage2.filename,
+      }),
+    ]);
+
+    residualFile = fakeImage2;
   });
 
-  it('should not be able to upload images for a non existing car', async () => {
+  it('should not be able to delete a non existing car image', async () => {
     await expect(
-      uploadCarImagesUseCase.execute({
+      deleteCarImageUseCase.execute({
         car_id: 'non-existing-car-id',
-        images_names: ['whatever']
+        image_name: 'whatever'
       })
     ).rejects.toEqual(new AppError('Car does not exists!', 404));
   });

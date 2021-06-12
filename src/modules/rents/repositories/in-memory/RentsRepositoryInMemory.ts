@@ -25,9 +25,7 @@ export default class RentsRepositoryInMemory implements IRentsRepository {
     }
     else {
       // update
-      console.log(rental.id, 'before assigning');
       Object.assign(rental, data);
-      console.log(rental.id, 'after assigning');
 
       const currentRentalIndex = this.rentsRepository.findIndex(currentRental => currentRental.id === data.id);
       this.rentsRepository[currentRentalIndex] = rental;

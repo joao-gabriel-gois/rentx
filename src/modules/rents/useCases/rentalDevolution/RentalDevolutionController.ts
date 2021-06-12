@@ -5,12 +5,11 @@ import RentalDevolutionUseCase from "./RentalDevolutionUseCase";
 
 class RentalDevolutionController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { id: user_id } = request.user;
     const { id } = request.params;
 
     const rentalDevolutionUseCase = container.resolve(RentalDevolutionUseCase);
 
-    const rental = await rentalDevolutionUseCase.execute({ id, user_id });
+    const rental = await rentalDevolutionUseCase.execute(id);
 
     return response.json(rental); 
   }

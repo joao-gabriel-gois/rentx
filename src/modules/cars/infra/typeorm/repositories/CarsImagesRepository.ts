@@ -3,7 +3,7 @@ import IDeleteCarsImagesDTO from "@modules/cars/DTOs/IDeleteCarsImageDTO";
 import ICarsImagesRepository from "@modules/cars/repositories/ICarsImagesRepository";
 import { getRepository, Repository } from "typeorm";
 
-import { CarImage } from "../entities/CarImage";
+import CarImage from "../entities/CarImage";
 
 export default class CarsImagesRepository implements ICarsImagesRepository {
   private repository: Repository<CarImage>;
@@ -24,8 +24,8 @@ export default class CarsImagesRepository implements ICarsImagesRepository {
     await this.repository.delete({car_id, image_name});
   }
 
-  async findByCarId(car_id: string): Promise<CarImage | undefined> {
-    const carImage = await this.repository.findOne({ car_id });
+  async findByCarId(car_id: string): Promise<CarImage[]> {
+    const carImage = await this.repository.find({ car_id });
 
     return carImage;
   }

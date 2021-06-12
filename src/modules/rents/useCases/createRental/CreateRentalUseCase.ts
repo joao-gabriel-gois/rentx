@@ -29,7 +29,7 @@ export default class CreateRentalUseCase {
     const rentalMinimumExpirationTimeInHours = 24;
 
     const rentalOpenToCar = await this.rentsRepository.findOpenRentalByCarId(car_id);
-    console.log('ok');
+
     if (rentalOpenToCar) {
       throw new AppError('Car is unavailable!');
     }

@@ -29,7 +29,7 @@ export default class CreateUserUseCase {
     
     const passwordHash = await hash(password, 8);
 
-    await this.usersRepository.create({
+    await this.usersRepository.createOrUpdate({
       name,
       email,
       driver_license,

@@ -6,16 +6,25 @@ import User from '@modules/accounts/infra/typeorm/entities/User';
 
 import CreateUserUseCase from '../createUser/CreateUserUseCase';
 import AuthenticateUserUseCase from './AuthenticateUserUseCase';
+import UsersTokensRepositoryInMemory from '@modules/accounts/repositories/in-memory/UsersTokensRepositoryInMemory';
+import DayjsDateProvider from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
 
 
 let usersRepository: UsersRepositoryInMemory;
+let usersTokensRepository: UsersTokensRepositoryInMemory;
+
+let dateProvider: DayjsDateProvider;
+
 let authenticateUserUsecase: AuthenticateUserUseCase;
 let createUserUseCase: CreateUserUseCase;
 
 describe('Authenticate User', () => {
   beforeEach(async () => {
     usersRepository = new UsersRepositoryInMemory();
-    authenticateUserUsecase = new AuthenticateUserUseCase(usersRepository);
+    usersTokensRepository = new UsersTokensRepositoryInMemory();
+    dateProvider = new DayjsDateProvider();
+    
+    authenticateUserUsecase = new AuthenticateUserUseCase(usersRepository, usersTokensRepository, dateProvider);
     createUserUseCase = new CreateUserUseCase(usersRepository);
   });
 

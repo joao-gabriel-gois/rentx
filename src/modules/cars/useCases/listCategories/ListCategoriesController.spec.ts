@@ -16,7 +16,7 @@ function createCategoryInfo() {
   }
 }
 
-async function createAdminUser() {
+async function authenticateAdminUser() {
   const responseToken = await request(app).post('/sessions').send({
     email: 'admin@rentx.dev',
     password: 'admin'
@@ -45,27 +45,26 @@ describe('List Categories Controller', () => {
   });
 
   it('should be able to list categories', async () => {
-    const { token } = await createAdminUser();
+    const { refresh_token } = await authenticateAdminUser();
+    
 
     const firstCategoryInfo = createCategoryInfo();
     const secondCategoryInfo = createCategoryInfo();
 
     await request(app).post('/categories').send(firstCategoryInfo).set({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${refresh_token}`
     });
 
     await request(app).post('/categories').send(secondCategoryInfo).set({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${refresh_token}`
     });
 
     const response = await request(app).get('/categories');
-
-    expect(response.body).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining(firstCategoryInfo),
-        expect.objectContaining(secondCategoryInfo)
-      ])
-    );
+    
+    expect(response.body).toEqual([
+      expect.objectContaining(firstCategoryInfo),
+      expect.objectContaining(secondCategoryInfo)
+    ]);
     expect(response.body[0]).toHaveProperty('id');
     expect(response.body[1].name).toEqual('Category Supertest 2');
 
