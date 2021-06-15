@@ -64,15 +64,12 @@ export default class CarsRepository implements ICarsRepository {
       
       
   async updateAvailability(id: string, available: boolean): Promise<void> {
-    const car = await this.repository
+    await this.repository
       .createQueryBuilder()
       .update()
       .set({ available })
       .where('id = :id')
       .setParameters({id})
       .execute()
-
-    console.log(car);    
-
   }
 }

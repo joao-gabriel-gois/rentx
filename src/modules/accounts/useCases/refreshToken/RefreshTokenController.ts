@@ -11,16 +11,16 @@ class RefreshTokenController {
       request.query.token;
 
     const refreshTokenUseCase = container.resolve(RefreshTokenUseCase);
-
+    
     const refreshToken = await refreshTokenUseCase.execute(token);
     
-    const clientIp = request.ip.split(':')[request.ip.split(':').length - 1];
-    console.log(
-      `Refresh Token request started from client using IP: ${
-        clientIp
-      }\nReq Headers:\n${
-        JSON.stringify(request.headers)
-      }`);
+    // const clientIp = request.ip.split(':')[request.ip.split(':').length - 1];
+    // console.log(
+    //   `Refresh Token request started from client using IP: ${
+    //     clientIp
+    //   }\nReq Headers:\n${
+    //     JSON.stringify(request.headers)
+    //   }`);
 
     return response.json(refreshToken);
   }

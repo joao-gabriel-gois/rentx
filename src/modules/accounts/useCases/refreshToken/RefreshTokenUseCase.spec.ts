@@ -45,8 +45,6 @@ describe('Refresh User Token', () => {
 
     const user = await usersRepository.findByEmail(userRequestData.email);
 
-    if (!user) throw new AppError('Tests failed to create an user', 500);
-
     const authResult = await authenticateUserUsecase.execute({
       email: userRequestData.email,
       password: userRequestData.password
