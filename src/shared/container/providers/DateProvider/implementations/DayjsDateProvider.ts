@@ -44,4 +44,13 @@ export default class DayjsDateProvider implements IDateProvider {
   addDaysFromNow(days: number): Date {
     return dayjs().add(days, 'days').toDate();
   }
+
+  addHoursFromNow(hours: number): Date {
+    return dayjs().add(hours, 'hour').toDate();
+  }
+
+  comparePrecedenceBetweenDates(expected_before: Date, expected_after: Date): boolean {
+    return dayjs(expected_before).isBefore(expected_after);
+  }
+
 }

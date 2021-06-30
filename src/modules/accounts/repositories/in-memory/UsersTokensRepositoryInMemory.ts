@@ -40,4 +40,8 @@ export default class UsersTokensRepositoryInMemory implements IUsersTokensReposi
     this.usersTokensRepository.splice(userTokenIndex, 1);
   }
 
+  async findByRefreshToken(refresh_token: string): Promise<UserTokens | undefined> {
+    return this.usersTokensRepository.find(userToken => userToken.refresh_token === refresh_token);
+  }
+
 }

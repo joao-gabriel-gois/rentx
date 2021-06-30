@@ -8,12 +8,13 @@ import CreateUserUseCase from '../createUser/CreateUserUseCase';
 import AuthenticateUserUseCase from './AuthenticateUserUseCase';
 import UsersTokensRepositoryInMemory from '@modules/accounts/repositories/in-memory/UsersTokensRepositoryInMemory';
 import DayjsDateProvider from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
+import IDateProvider from '@shared/container/providers/DateProvider/IDateProvider';
 
 
 let usersRepository: UsersRepositoryInMemory;
 let usersTokensRepository: UsersTokensRepositoryInMemory;
 
-let dateProvider: DayjsDateProvider;
+let dateProvider: IDateProvider;
 
 let authenticateUserUsecase: AuthenticateUserUseCase;
 let createUserUseCase: CreateUserUseCase;

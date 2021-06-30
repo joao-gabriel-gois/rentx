@@ -4,4 +4,9 @@ export default interface IDateProvider {
   comparisonResultInHours(start_date: Date, end_date: Date): number;
   comparisonResultInDays(start_date: Date, end_date: Date): number;
   addDaysFromNow(days: number): Date;
+  addHoursFromNow(hours: number): Date;
+  comparePrecedenceBetweenDates(
+    expected_before: Date,
+    expected_after: Date
+  ): boolean;
 }
