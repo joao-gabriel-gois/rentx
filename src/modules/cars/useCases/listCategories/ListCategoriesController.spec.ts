@@ -45,18 +45,18 @@ describe('List Categories Controller', () => {
   });
 
   it('should be able to list categories', async () => {
-    const { refresh_token } = await authenticateAdminUser();
+    const { token } = await authenticateAdminUser();
     
 
     const firstCategoryInfo = createCategoryInfo();
     const secondCategoryInfo = createCategoryInfo();
 
     await request(app).post('/categories').send(firstCategoryInfo).set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     });
 
     await request(app).post('/categories').send(secondCategoryInfo).set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     });
 
     const response = await request(app).get('/categories');

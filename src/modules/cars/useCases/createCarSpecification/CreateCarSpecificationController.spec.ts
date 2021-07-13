@@ -9,7 +9,6 @@ import ICreateUserDTO from '@modules/accounts/DTOs/ICreateUserDTO';
 import ICarsRepository from '@modules/cars/repositories/ICarsRepository';
 import CarsRepository from '@modules/cars/infra/typeorm/repositories/CarsRepository';
 import Car from '@modules/cars/infra/typeorm/entities/Car';
-import Rental from '@modules/rents/infra/typeorm/entities/Rental';
 import ICategoriesRepository from '@modules/cars/repositories/ICategoriesRepository';
 import ISpecificationsRepository from '@modules/cars/repositories/ISpecificationsRepository';
 import CategoriesRepository from '@modules/cars/infra/typeorm/repositories/CategoriesRepository';
@@ -19,7 +18,7 @@ import SpecificationsRepository from '@modules/cars/infra/typeorm/repositories/S
 
 let connection: Connection;
 let user_id: string; // UUID
-let refresh_token: string;
+let token: string;
 
 
 let categoriesRepository: ICategoriesRepository;
@@ -92,7 +91,7 @@ describe('Create Car Specification Controller', () => {
       password: 'admin'
     });
 
-    refresh_token = responseToken.body.refresh_token;
+    token = responseToken.body.token;
 
     await categoriesRepository.create({
       name: 'Test Category',
@@ -131,7 +130,7 @@ describe('Create Car Specification Controller', () => {
         specifications_id: specifications.map(spec => spec.id)
       })
       .set({
-        authorization: `Bearer ${refresh_token}`
+        authorization: `Bearer ${token}`
       });
 
     const parsedResponse = parseCarSpecResponse(newCarSpecResponse);

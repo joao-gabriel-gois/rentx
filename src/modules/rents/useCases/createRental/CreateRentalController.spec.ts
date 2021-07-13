@@ -13,7 +13,7 @@ import Rental from '@modules/rents/infra/typeorm/entities/Rental';
 
 let connection: Connection;
 let user_id: string; // UUID
-let refresh_token: string;
+let token: string;
 
 let responseCategory: Response;
 let carsRepository: ICarsRepository;
@@ -68,13 +68,13 @@ describe('Create Rental Controller', () => {
       password: 'admin'
     });
 
-    refresh_token = responseToken.body.refresh_token;
+    token = responseToken.body.token;
 
     responseCategory = await request(app).post('/categories').send({
       name: 'Popular',
       description: 'Carros com alta rentabilidade e baixo custo'
     }).set({
-        Authorization: `Bearer ${refresh_token}`
+        Authorization: `Bearer ${token}`
     });
 
     const category_id = responseCategory.body.id;
@@ -118,7 +118,7 @@ describe('Create Rental Controller', () => {
       .post('/rents')
       .send(rentalRequestData)
       .set({
-        Authorization: `Bearer ${refresh_token}`
+        Authorization: `Bearer ${token}`
       });
 
     const parsedResponse = parseResponse(response);
@@ -154,7 +154,7 @@ describe('Create Rental Controller', () => {
       .post('/rents')
       .send(rentalRequestData)
       .set({
-        Authorization: `Bearer ${newUserAuthResponse.body.refresh_token}` // different user from previous test
+        Authorization: `Bearer ${newUserAuthResponse.body.token}` // different user from previous test
       });
 
     expect(response.status).toBe(400);
@@ -173,7 +173,7 @@ describe('Create Rental Controller', () => {
       .post('/rents')
       .send(rentalRequestData)
       .set({
-        Authorization: `Bearer ${refresh_token}` // same user from first test
+        Authorization: `Bearer ${token}` // same user from first test
       });
 
     expect(response.status).toBe(400);

@@ -45,18 +45,18 @@ describe('List Specifications Controller', () => {
   });
 
   it('should be able to list specifications', async () => {
-    const { refresh_token } = await authenticateAdminUser();
+    const { token } = await authenticateAdminUser();
     
 
     const firstSpecificationInfo = createSpecificationInfo();
     const secondSpecificationInfo = createSpecificationInfo();
 
     await request(app).post('/specifications').send(firstSpecificationInfo).set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     });
 
     await request(app).post('/specifications').send(secondSpecificationInfo).set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     });
 
     const response = await request(app).get('/specifications');

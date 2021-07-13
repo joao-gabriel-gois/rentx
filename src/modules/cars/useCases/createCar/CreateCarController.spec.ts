@@ -8,7 +8,7 @@ import createConnection from '@shared/infra/typeorm';
 
 let connection: Connection;
 let user_id: string; // UUID
-let refresh_token: string;
+let token: string;
 let category: Response;
 
 describe('Create Car Controller', () => {
@@ -29,13 +29,13 @@ describe('Create Car Controller', () => {
       password: 'admin'
     });
 
-    refresh_token = responseToken.body.refresh_token;
+    token = responseToken.body.token;
 
     category = await request(app).post('/categories').send({
       name: 'Popular',
       description: 'Carros com alta rentabilidade e baixo custo'
     }).set({
-        Authorization: `Bearer ${refresh_token}`
+        Authorization: `Bearer ${token}`
     });
   });
 
@@ -56,7 +56,7 @@ describe('Create Car Controller', () => {
       brand: 'Volkswagen',
       category_id,
     }).set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     });
 
     expect(response.status).toBe(201);
@@ -75,7 +75,7 @@ describe('Create Car Controller', () => {
       brand: 'Volkswagen',
       category_id
     }).set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     });
 
     expect(response.status).toBe(400);

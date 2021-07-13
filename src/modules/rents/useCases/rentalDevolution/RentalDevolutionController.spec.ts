@@ -16,7 +16,7 @@ import IDateProvider from '@shared/container/providers/DateProvider/IDateProvide
 import DayjsDateProvider from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
 
 let connection: Connection;
-let refresh_token: string;
+let token: string;
 let responseCategory: Response;
 
 let cars: Car[];
@@ -82,14 +82,14 @@ describe('Rental Devolution Controller', () => {
       password: 'admin',
     });
     
-    refresh_token = responseToken.body.refresh_token;
+    token = responseToken.body.token;
     
     // Admin user creates a category
     responseCategory = await request(app).post('/categories').send({
       name: 'Popular',
       description: 'Carros com alta rentabilidade e baixo custo'
     }).set({
-        Authorization: `Bearer ${refresh_token}`
+        Authorization: `Bearer ${token}`
     });
 
     const category_id = responseCategory.body.id;
@@ -138,7 +138,7 @@ describe('Rental Devolution Controller', () => {
     expect(carStatusBefore!.available).toBeFalsy(); // It was rented in beforeAll
 
     const response = await request(app).post(`/rents/devolution/${rental.id}`).set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     }); // Rental Devolution Happnes
     
     const parsedResponse = parseRentalResponse(response);

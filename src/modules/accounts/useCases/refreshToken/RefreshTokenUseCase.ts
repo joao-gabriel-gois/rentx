@@ -1,5 +1,4 @@
 import auth from '@config/auth';
-import UserTokens from '@modules/accounts/infra/typeorm/entities/UserTokens';
 import IUsersTokensRepository from '@modules/accounts/repositories/IUsersTokensRepository';
 import IDateProvider from '@shared/container/providers/DateProvider/IDateProvider';
 import AppError from '@shared/errors/AppError';
@@ -59,7 +58,7 @@ export default class RefreshTokenUseCase {
       refresh_token
     })
         
-    const newToken = sign({ email }, token_secret, {
+    const newToken = sign({}, token_secret, {
       subject: user_id,
       expiresIn: token_expires_in,
     });

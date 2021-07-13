@@ -16,7 +16,7 @@ import IDateProvider from '@shared/container/providers/DateProvider/IDateProvide
 import DayjsDateProvider from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
 
 let connection: Connection;
-let refresh_token: string;
+let token: string;
 let responseCategory: Response;
 
 let availableCars: Car[];
@@ -92,14 +92,14 @@ describe('List Rents By User Controller', () => {
       password: 'admin',
     });
     
-    refresh_token = responseToken.body.refresh_token;
+    token = responseToken.body.token;
     
     // Admin user creates a category
     responseCategory = await request(app).post('/categories').send({
       name: 'Popular',
       description: 'Carros com alta rentabilidade e baixo custo'
     }).set({
-        Authorization: `Bearer ${refresh_token}`
+        Authorization: `Bearer ${token}`
     });
 
     const category_id = responseCategory.body.id;
@@ -149,7 +149,7 @@ describe('List Rents By User Controller', () => {
   it('should be able to list all rents by a certain user', async () => {
     // Check the list of cars rented by admin user
     const response = await request(app).get('/rents/user').set({
-      Authorization: `Bearer ${refresh_token}`
+      Authorization: `Bearer ${token}`
     });
     const parsedResponse = parseRentalResponse(response);
 
