@@ -5,7 +5,7 @@ import IDeleteCarsImagesDTO from "@modules/cars/DTOs/IDeleteCarsImageDTO";
 import ICarsImagesRepository from "@modules/cars/repositories/ICarsImagesRepository";
 import ICarsRepository from "@modules/cars/repositories/ICarsRepository";
 import AppError from "@shared/errors/AppError";
-import uploadConfig from '@config/upload'
+import setUploadStorageFromTmpOn from '@config/upload'
 import { deleteFile } from "@utils/file";
 
 @injectable()
@@ -25,9 +25,9 @@ export default class DeleteCarImageUseCase {
     if (!car) {
       throw new AppError('Car does not exists!', 404);
     }
-    const carsImagesPath = uploadConfig('cars').path;
+    const { path } = setUploadStorageFromTmpOn('cars');
 
-    const filePath = resolve(carsImagesPath, image_name);
+    const filePath = resolve(path, image_name);
     await deleteFile(filePath);
     
     await this.carsImagesRepository.delete({car_id, image_name});

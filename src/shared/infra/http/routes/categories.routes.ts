@@ -14,7 +14,7 @@ const createCategoryController = new CreateCategoryController();
 const listCategoriesController = new ListCategoriesController();
 const importCategoryController = new ImportCategoryController();
 
-const uploadCSV = multer(uploadConfig(''));
+const uploadCSV = multer(uploadConfig);
 
 // Routes:
 categoriesRoutes.get('/', listCategoriesController.handle);

@@ -1,4 +1,4 @@
-import upload from '@config/upload';
+import setUploadStorageFromTmpOn from '@config/upload';
 import fs from 'fs';
 import { resolve } from 'path';
 
@@ -37,7 +37,7 @@ export const createFile = ({
     extension = 'txt',
     content = 'SomeContent'
 }: ICreateFakeFileRequest): ICreateFakeFileResponse => {
-  let { path, fileHash } = upload(folder);
+  let { path, fileHash } = setUploadStorageFromTmpOn(folder);
   filename = `${fileHash}-${filename}.${extension}`;
   path = resolve(path, filename);
   

@@ -20,7 +20,7 @@ const listAvailableCarsController = new ListAvailableCarsController();
 const uploadCarImagesController = new UploadCarImagesController();
 const deleteCarImageController = new DeleteCarImageController();
 
-const uploadCarImages = multer(uploadConfig('cars'));
+const uploadCarImages = multer(uploadConfig);
 
 
 carsRoutes.post('/', ensureAuthentication, checkUserPrivilegeLevel, createCarController.handle);

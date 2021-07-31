@@ -1,6 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import { deleteFile } from "@utils/file";
 import IUsersRepository from "@modules/accounts/repositories/IUsersRepository";
+import IStorageProvider from "@shared/container/providers/StorageProvider/IStorageProvider";
+import AppError from "@shared/errors/AppError";
 
 
 interface IRequest {
@@ -11,20 +13,24 @@ interface IRequest {
 export default class UpdateUserAvatarUseCase {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUsersRepository
+    private usersRepository: IUsersRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider 
   ) {};
 
 
   async execute({ user_id, avatar_file }: IRequest): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
-    // exclamation mark bellow is there to inform TS that this value will never be 
-    // undefined or null once findById may return undefined, but in this case it will
-    // never do it because auth middleware will ensure that this execution will always
-    // happen for a valid user
-    if (user!.avatar) await deleteFile(`./tmp/avatar-images/${user!.avatar}`);
 
-    user!.avatar = avatar_file;
+    if (!user) throw new AppError('User not found');
 
-    await this.usersRepository.createOrUpdate(user!);
+    if (user.avatar) await this.storageProvider.delete('avatar-images', user.avatar);
+
+    await this.storageProvider.save('avatar-images', avatar_file);
+
+    user.avatar = avatar_file;
+
+    await this.usersRepository.createOrUpdate(user);
   }
 }
