@@ -31,16 +31,16 @@ _This api has two types of users: Admins and regular ones. Admins will be able t
 _You can find proper documentation for this api by running this project:_
 
 1) Clone this repo:
-```
+```bash
 git clone https://github.com/joao-gabriel-gois/rentx.git
 ```
 
 2) Sync up all dependencies:
-```
-yarn
+```bash
+cd rentx && yarn
 ``` 
 2) Set the project:
-```
+```bash
 sudo docker-compose up
 ```
 
