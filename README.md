@@ -78,7 +78,7 @@ sudo docker-compose up
 >
 >    - _accounts_:
 >
->      - [ ] refreshToken (Not sure why current test is not work, need to review later)
+>      - [ ] refreshToken (Not sure why current test is not working, need to review later)
 >      - [ ] updateUserAvatar (I'll try later, finish car first)
 >
 >    - _cars_:
