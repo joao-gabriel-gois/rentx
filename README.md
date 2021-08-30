@@ -32,7 +32,7 @@ _You can find proper documentation for this api by running this project:_
 
 1) Clone this repo:
 ```
-https://github.com/joao-gabriel-gois/rentx.git
+git clone https://github.com/joao-gabriel-gois/rentx.git
 ```
 
 2) Sync up all dependencies:
