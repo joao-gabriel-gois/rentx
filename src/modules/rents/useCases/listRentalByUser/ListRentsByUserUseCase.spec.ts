@@ -8,7 +8,7 @@ import UsersRepositoryInMemory from "@modules/accounts/repositories/in-memory/Us
 
 import ListRentsByUserUseCase from "./ListRentsByUserUseCase";
 
-import addDaysFromNow from "@utils/dateHandler";
+import addDaysFromNow from "@utils/addDaysFromNow";
 
 
 let usersRepository: IUsersRepository;

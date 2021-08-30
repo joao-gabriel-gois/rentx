@@ -11,7 +11,7 @@ import UsersRepositoryInMemory from "@modules/accounts/repositories/in-memory/Us
 // Criar um rental
 
 // E então o devolution
-import addDaysFromNow from "@utils/dateHandler";
+import addDaysFromNow from "@utils/addDaysFromNow";
 import Rental from "@modules/rents/infra/typeorm/entities/Rental";
 import User from "@modules/accounts/infra/typeorm/entities/User";
 import RentalDevolutionUseCase from "./RentalDevolutionUseCase";

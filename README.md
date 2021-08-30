@@ -2,7 +2,7 @@
 
 <img
   src="https://www.pinclipart.com/picdir/big/95-950337_racecar-jake-by-sircinnamon-d5itmuc-adventure-time-car.png"
-  style="display: block; margin: 0 auto;" width="240"
+  style="display: block !important; margin: 0 auto !important;" width="240"
 />
 
 ## Reviewing Tests:
