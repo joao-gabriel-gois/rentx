@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import CreateSpecificationUseCase from './CreateCarSpecificationUseCase';
+import CreateCarSpecificationUseCase from './CreateCarSpecificationUseCase';
 
 class CreateCarSpecificationController {
 
@@ -8,9 +8,9 @@ class CreateCarSpecificationController {
     const { id } = request.params;
     const { specifications_id } = request.body;
 
-    const createSpecificationUseCase = container.resolve(CreateSpecificationUseCase);
+    const createCarSpecificationUseCase = container.resolve(CreateCarSpecificationUseCase);
 
-    const specification = await createSpecificationUseCase.execute({
+    const specification = await createCarSpecificationUseCase.execute({
       car_id: id,
       specifications_id
     });
