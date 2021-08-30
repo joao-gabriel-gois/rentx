@@ -1,10 +1,10 @@
 {
   "type": "postgres",
-  "host": "localhost",
+  "host": "hostname",
   "port": 5432,
-  "username": "docker",
-  "password": "ignite",
-  "database": "rentx",
+  "username": "username",
+  "password": "password",
+  "database": "dbName",
   "entities": [
     "./src/modules/cars/infra/typeorm/entities/*.ts",
     "./src/modules/accounts/infra/typeorm/entities/*.ts",
