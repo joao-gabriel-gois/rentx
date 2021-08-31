@@ -6,7 +6,7 @@ import createConnection from '../index';
 async function create() {
   // because we are using with docker, sometimes we need to use 'database' as defined earlier
   // or localhost, the actual host name;
-  const connection = await createConnection('localhost');
+  const connection = await createConnection();
 
   const id = uuid();
   const password = await hash('admin', 8);
