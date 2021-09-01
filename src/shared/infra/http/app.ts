@@ -6,6 +6,7 @@ import 'express-async-errors';
 import swaggerUi from 'swagger-ui-express';
 
 import errorHandler from '@shared/infra/http/middlewares/errorHandler';
+import rateLimiter from '@shared/infra/http/middlewares/rateLimiter';
 import swaggerFile from '../../../swagger.json';
 
 import routes from '@shared/infra/http/routes';
@@ -19,6 +20,7 @@ createConnection();
 const app = express();
 
 app.use(express.json());
+app.use(rateLimiter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use('/profiles', express.static(`${upload.tmpFolder}/avatar-images`));
