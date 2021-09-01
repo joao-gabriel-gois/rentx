@@ -5,10 +5,10 @@
     "description": "This is an API for a car rent service",
     "version": "1.0.0",
     "contact": {
-      "email": "gois.jg.dev@gmail.com"
+      "email": "gois.jg.dev@buzzybit.com"
     }
   },
-  "host": "localhost:3333",
+  "host": "https://rentx.buzzybit.com",
   "paths": {
     "/categories": {
       "post": {
