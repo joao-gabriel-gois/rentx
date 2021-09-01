@@ -19,8 +19,8 @@ createConnection();
 
 const app = express();
 
-app.use(express.json());
 app.use(rateLimiter);
+app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use('/profiles', express.static(`${upload.tmpFolder}/avatar-images`));
