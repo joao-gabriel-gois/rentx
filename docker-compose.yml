@@ -12,6 +12,12 @@ services:
     volumes:
       - pgdata:/data/
 
+  redis: redis:alpine
+  ports:
+    - 26379:6379
+
+  
+
 volumes:
   pgdata:
     driver: local

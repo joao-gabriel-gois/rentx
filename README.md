@@ -30,8 +30,8 @@ _This api has two types of users: Admins and regular ones. Admins will be able t
 ## __API Reference:__
 _You can find proper documentation by bellow URL:_
 
-><a src="http://rentx.buzzybit.com/api-docs">http://rentx.buzzybit.com/api-docs</a>
-(Incomplete by now)
+><a src="https://rentx.buzzybit.com/api-docs">https://rentx.buzzybit.com/api-docs</a>
+(Incomplete for now)
 
 <br><br>
 

@@ -7,6 +7,8 @@ import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 
 import errorHandler from '@shared/infra/http/middlewares/errorHandler';
+import rateLimiter from '@shared/infra/http/middlewares/rateLimiter';
+
 import swaggerFile from '../../../swagger.json';
 
 import routes from '@shared/infra/http/routes';
@@ -19,6 +21,7 @@ createConnection();
 
 const app = express();
 
+app.use(rateLimiter);
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
