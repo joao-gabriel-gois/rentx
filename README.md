@@ -28,25 +28,10 @@ _This api has two types of users: Admins and regular ones. Admins will be able t
 </br><br>
 
 ## __API Reference:__
-_You can find proper documentation for this api by running this project:_
+_You can find proper documentation by bellow URL:_
 
-1) Clone this repo:
-```bash
-git clone https://github.com/joao-gabriel-gois/rentx.git
-```
-
-2) Sync up all dependencies:
-```bash
-cd rentx && yarn
-``` 
-2) Set the project:
-```bash
-sudo docker-compose up
-```
-
-3) Now check API Doc at:
-
-><a src="http://localhost:3333/api-docs">http://localhost:3333/api-docs</a>
+><a src="http://rentx.buzzybit.com/api-docs">http://rentx.buzzybit.com/api-docs</a>
+(Incomplete by now)
 
 <br><br>
 
